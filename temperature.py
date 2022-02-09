@@ -1,11 +1,8 @@
 from dataclasses import dataclass
-
 from pi_sht1x import SHT1x
-
-from connections import connections
-from settings import TEMPERATURE_SENSOR_DATA_PIN, TEMPERATURE_SENSOR_SCK_PIN, MQTT_ROOT_TOPIC
-from utils import generate_topic
 from mqtt import publish_message
+from settings import TEMPERATURE_SENSOR_DATA_PIN, TEMPERATURE_SENSOR_SCK_PIN
+
 
 @dataclass
 class TemperatureMeasurement:

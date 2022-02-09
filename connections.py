@@ -3,12 +3,15 @@ from logging import getLogger, Logger
 import coloredlogs
 from paho.mqtt.client import Client
 
+from led import RGBLed
+from mqtt import on_message, subscribe
 from settings import MQTT_PORT, MQTT_HOST, MQTT_USER, MQTT_PASSWORD
 
 
 class Connections:
     mqtt_client: Client
     logger: Logger
+    led: RGBLed
 
     def initialize(self):
         self.logger = getLogger("hib")
@@ -20,9 +23,16 @@ class Connections:
         self.logger.debug(f"Connection to mqtt broker - {MQTT_HOST}:{MQTT_PORT}")
         self.mqtt_client.connect(MQTT_HOST, MQTT_PORT)
         self.logger.info("Connection to logger succeed")
+        self.mqtt_client.on_message = on_message
+        self.mqtt_client.loop_start()
 
     def setup_subscriptions(self):
-        self.mqtt_client.subscribe()
+        subscribe("/threshold/temperature")
+        subscribe("/threshold/humidity")
+        subscribe("/lights/r")
+        subscribe("/lights/g")
+        subscribe("/lights/b")
+
 
 global connections
 connections = Connections()
