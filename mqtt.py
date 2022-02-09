@@ -8,6 +8,7 @@ def publish_message(topic, payload):
 
 def subscribe(topic_name):
     from connections import connections
+    connections.logger.debug(f"Subscribed for {generate_topic(topic_name)} topic")
     connections.mqtt_client.subscribe(generate_topic(topic_name), 1)
 
 

@@ -3,10 +3,12 @@ import time
 
 from connections import connections
 from hardware_components import hardware
+from storage import storage
 from temperature import get_temperature_data
 
 connections.initialize()
 hardware.initialize()
+storage.load()
 s = sched.scheduler(time.time, time.sleep)
 
 

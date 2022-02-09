@@ -23,6 +23,7 @@ class Connections:
         self.logger.debug(f"Connection to mqtt broker - {MQTT_HOST}:{MQTT_PORT}")
         self.mqtt_client.connect(MQTT_HOST, MQTT_PORT)
         self.logger.info("Connection to logger succeed")
+        self.setup_subscriptions()
         self.mqtt_client.on_message = on_message
         self.mqtt_client.loop_start()
 

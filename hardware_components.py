@@ -12,8 +12,11 @@ class HardwareComponents:
         GPIO.setmode(GPIO.BOARD)
         self.rgb_led = RGBLed(RGB_LED_R_PIN, RGB_LED_G_PIN, RGB_LED_B_PIN)
         self.heater = LED(HEATER_LED_INDICATOR_PIN)
-        self.rgb_led.set_rgb(25, 25, 0)
 
+    def reinit(self, r, g, b, heater_value):
+        self.initialize()
+        self.rgb_led.set_rgb(r, g, b)
+        self.heater.state = heater_value
 
 global hardware
 hardware = HardwareComponents()
