@@ -1,0 +1,10 @@
+from os import getenv
+
+TEMPERATURE_SENSOR_DATA_PIN = 7
+TEMPERATURE_SENSOR_SCK_PIN = 8
+
+MQTT_HOST = getenv("HIB_MQTT_HOST")
+MQTT_PORT = 1883 if getenv("HIB_MQTT_PORT") is None else int(getenv("HIB_MQTT_PORT"))
+MQTT_USER = getenv("HIB_MQTT_USER")
+MQTT_PASSWORD = getenv("HIB_MQTT_PASSWORD")
+MQTT_ROOT_TOPIC = "predprof"
