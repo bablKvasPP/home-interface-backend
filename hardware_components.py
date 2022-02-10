@@ -20,6 +20,9 @@ class HardwareComponents:
         self.rgb_led.start_pwm()
         self.rgb_led.set_rgb(storage.lights_r, storage.lights_g, storage.lights_b)
 
+    def stop(self):
+        self.rgb_led.stop_pwm()
+
 
 global hardware
 hardware = HardwareComponents()

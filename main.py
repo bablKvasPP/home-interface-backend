@@ -21,5 +21,10 @@ def save_data_to_mqtt(sc):
 
 
 s.enter(20, 1, save_data_to_mqtt, (s,))
-s.run()
-print("Hello world!")
+try:
+    s.run()
+except KeyboardInterrupt:
+    connections.logger.error("Bye-Bye")
+    connections.mqtt_client.loop_stop()
+    hardware.stop()
+    exit()

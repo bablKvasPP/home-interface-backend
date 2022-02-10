@@ -21,6 +21,11 @@ class RGBLed:
         self.g_pwm.start(0)
         self.b_pwm.start(0)
 
+    def stop_pwm(self):
+        self.r_pwm.stop(0)
+        self.g_pwm.stop(0)
+        self.b_pwm.stop(0)
+
     def setup_pinout(self):
         GPIO.setup(self.r_pin, GPIO.OUT, initial=GPIO.LOW)
         GPIO.setup(self.g_pin, GPIO.OUT, initial=GPIO.LOW)
