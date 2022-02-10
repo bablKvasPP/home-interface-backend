@@ -1,5 +1,7 @@
 import RPi.GPIO as GPIO
 
+from storage import storage
+
 
 class RGBLed:
     """ Some not so good code here """
@@ -12,6 +14,9 @@ class RGBLed:
         self.r_pwm = GPIO.PWM(self.r_pin, 100)
         self.g_pwm = GPIO.PWM(self.g_pin, 100)
         self.b_pwm = GPIO.PWM(self.b_pin, 100)
+        self.start_pwm()
+
+    def start_pwm(self):
         self.r_pwm.start(0)
         self.g_pwm.start(0)
         self.b_pwm.start(0)
@@ -21,11 +26,18 @@ class RGBLed:
         GPIO.setup(self.g_pin, GPIO.OUT, initial=GPIO.LOW)
         GPIO.setup(self.b_pin, GPIO.OUT, initial=GPIO.LOW)
 
-    def set_rgb(self, r, g, b):
+    def set_rgb(self, r=None, g=None, b=None):
         multiply_koef = 1 / 2.55
-        self.r_pwm.ChangeDutyCycle(r * multiply_koef)
-        self.g_pwm.ChangeDutyCycle(g * multiply_koef)
-        self.b_pwm.ChangeDutyCycle(b * multiply_koef)
+        if r is not None:
+            self.r_pwm.ChangeDutyCycle(r * multiply_koef)
+            storage.lights_r = r
+        if g is not None:
+            self.g_pwm.ChangeDutyCycle(g * multiply_koef)
+            storage.lights_g = g
+        if b is not None:
+            self.b_pwm.ChangeDutyCycle(b * multiply_koef)
+            storage.lights_b = b
+        storage.save()
 
 
 class LED:

@@ -22,7 +22,8 @@ class Storage:
                 data = storage_file.read()
                 if data:
                     as_dict = loads(data)
-                    for key, value in as_dict.values():
+                    print(as_dict)
+                    for key, value in as_dict.items():
                         setattr(self, key, value)
         except FileNotFoundError:
             pass

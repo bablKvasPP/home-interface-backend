@@ -15,6 +15,6 @@ class TemperatureMeasurement:
 
 
 def get_temperature_data() -> TemperatureMeasurement:
-    with SHT1x(TEMPERATURE_SENSOR_DATA_PIN, TEMPERATURE_SENSOR_SCK_PIN) as sensor:
+    with SHT1x(TEMPERATURE_SENSOR_DATA_PIN, TEMPERATURE_SENSOR_SCK_PIN, otp_no_reload=True) as sensor:
         temp = sensor.read_temperature()
         return TemperatureMeasurement(temp, sensor.read_humidity())
