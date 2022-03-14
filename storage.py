@@ -10,6 +10,7 @@ class Storage:
     lights_b: int = 0
     heater_threshold: int = 18
     cooler_threshold: int = 23
+    alert_threshold: int = 70
 
     def save(self):
         json = dumps(asdict(self))

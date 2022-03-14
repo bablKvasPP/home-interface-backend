@@ -3,9 +3,9 @@ from mqtt_routing import MqttRoute, find_route
 from utils import generate_topic
 
 message_routes = [
-    MqttRoute("/lights/r", lambda x: hardware.rgb_led.set_rgb(r=int(x))),
-    MqttRoute("/lights/g", lambda x: hardware.rgb_led.set_rgb(g=int(x))),
-    MqttRoute("/lights/b", lambda x: hardware.rgb_led.set_rgb(b=int(x))),
+    MqttRoute("lights/r", lambda x: hardware.rgb_led.set_rgb(r=int(x))),
+    MqttRoute("lights/g", lambda x: hardware.rgb_led.set_rgb(g=int(x))),
+    MqttRoute("lights/b", lambda x: hardware.rgb_led.set_rgb(b=int(x))),
 ]
 
 

@@ -10,8 +10,8 @@ class TemperatureMeasurement:
     humidity_value: int
 
     def save_to_mqtt(self):
-        publish_message("/temperature", self.temp_value)
-        publish_message("/humidity", self.humidity_value)
+        publish_message("temperature", self.temp_value)
+        publish_message("humidity", self.humidity_value)
 
 
 def get_temperature_data() -> TemperatureMeasurement:

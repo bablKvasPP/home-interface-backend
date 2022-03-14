@@ -9,6 +9,7 @@ from temperature import get_temperature_data
 connections.initialize()
 hardware.initialize()
 storage.load()
+hardware.reinit()
 s = sched.scheduler(time.time, time.sleep)
 
 
@@ -20,7 +21,16 @@ def save_data_to_mqtt(sc):
     s.enter(20, 1, save_data_to_mqtt, (sc,))
 
 
+def alert_on_high(sc):
+    temp_data = get_temperature_data()
+    if temp_data.temp_value > storage.alert_threshold:
+        hardware.buzzer.alert()
+    else:
+        hardware.buzzer.silence()
+
+
 s.enter(20, 1, save_data_to_mqtt, (s,))
+s.enter(5, 1, alert_on_high, (s,))
 try:
     s.run()
 except KeyboardInterrupt:
