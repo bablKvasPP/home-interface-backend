@@ -46,25 +46,25 @@ class RGBLed:
 
 
 class LED:
-    def __init__(self, pin):
+    def __init__(self, pin, is_reversed=False):
         self.pin = pin
+        self.is_reversed = is_reversed
         self._state = 0
         GPIO.setup(pin, GPIO.OUT, initial=GPIO.LOW)
-
-    def on(self):
-        self.state = 1
-
-    def off(self):
-        self.state = 0
-
-    def switch(self):
-        self.state = int(not bool(self.state))
 
     @property
     def state(self):
         return self._state
 
-    @state.setter
-    def setter(self, value):
+    def set_state(self, value):
         self._state = value
         GPIO.output(self.pin, value)
+
+    def on(self):
+        self.set_state(0 if self.is_reversed else 1)
+
+    def off(self):
+        self.set_state(1 if self.is_reversed else 0)
+
+    def switch(self):
+        self.set_state(int(not bool(self.state)))

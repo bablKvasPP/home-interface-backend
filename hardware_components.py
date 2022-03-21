@@ -6,13 +6,14 @@ from light_sensor import LightSensor
 
 from buzzer import Buzzer
 from led import RGBLed, LED
-from settings import RGB_LED_R_PIN, RGB_LED_B_PIN, RGB_LED_G_PIN, HEATER_LED_INDICATOR_PIN, BUZZER_PIN
+from settings import RGB_LED_R_PIN, RGB_LED_B_PIN, RGB_LED_G_PIN, HEATER_LED_INDICATOR_PIN, BUZZER_PIN, COOLER_RELAY_PIN
 from storage import storage
 
 
 class HardwareComponents:
     rgb_led: RGBLed
     heater: LED
+    cooler: LED
     buzzer: Buzzer
     spi: SPI
     cs: digitalio.DigitalInOut
@@ -26,6 +27,7 @@ class HardwareComponents:
         self.buzzer = Buzzer(BUZZER_PIN)
         self.mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(0, 0))
         self.light_sensor = LightSensor(0)
+        self.cooler = LED(COOLER_RELAY_PIN, is_reversed=True)
 
     def reinit(self):
         from connections import connections

@@ -4,7 +4,7 @@ import coloredlogs
 from paho.mqtt.client import Client
 
 from led import RGBLed
-from mqtt import on_message, subscribe
+from mqtt import on_message, subscribe, message_routes
 from settings import MQTT_PORT, MQTT_HOST, MQTT_USER, MQTT_PASSWORD
 
 
@@ -28,11 +28,8 @@ class Connections:
         self.mqtt_client.loop_start()
 
     def setup_subscriptions(self):
-        subscribe("/threshold/temperature")
-        subscribe("/threshold/humidity")
-        subscribe("/lights/r")
-        subscribe("/lights/g")
-        subscribe("/lights/b")
+        for mqtt_route in message_routes:
+            subscribe(mqtt_route.topic)
 
 
 global connections

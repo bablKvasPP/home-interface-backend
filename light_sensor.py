@@ -1,7 +1,7 @@
 # 0% light and 100% light
 
 LIGHT_REMAP = [500, 11]
-THRESHOLD = 38
+THRESHOLD = 55
 
 
 class LightSensor:
@@ -12,6 +12,9 @@ class LightSensor:
         from hardware_components import hardware
         adc_value = hardware.mcp.read_adc(self.mcp_channel)
         return LightMeasure(round(self.map(0, 100, LIGHT_REMAP[0], LIGHT_REMAP[1], adc_value), 4))
+
+    def is_dark(self):
+        return self.read_data().percents < THRESHOLD
 
     @staticmethod
     def map(min_value, max_value, origin_min, origin_max, value):

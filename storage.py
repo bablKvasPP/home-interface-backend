@@ -8,6 +8,7 @@ class Storage:
     lights_r: int = 0
     lights_g: int = 0
     lights_b: int = 0
+    light_economic_mode: bool = False
     heater_threshold: int = 18
     cooler_threshold: int = 23
     alert_threshold: int = 70
@@ -16,6 +17,14 @@ class Storage:
         json = dumps(asdict(self))
         with open("storage.json", "w+") as storage_file:
             storage_file.write(json)
+
+    def save_cooler_threshold(self, value):
+        self.cooler_threshold = value
+        self.save()
+
+    def save_heater_threshold(self, value):
+        self.heater_threshold = value
+        self.save()
 
     def load(self):
         try:
