@@ -13,12 +13,12 @@ hardware.reinit()
 s = sched.scheduler(time.time, time.sleep)
 
 
-def save_data_to_mqtt(sc):
+def save_temperature_to_mqtt(sc):
     temp_data = get_temperature_data()
     temp_data.save_to_mqtt()
     connections.logger.debug(f"Temp data saved to mqtt (t={temp_data.temp_value}º, h={temp_data.humidity_value}%)")
     hardware.reinit()
-    s.enter(20, 1, save_data_to_mqtt, (sc,))
+    s.enter(20, 1, save_temperature_to_mqtt, (sc,))
 
 
 def alert_on_high(sc):
@@ -29,8 +29,17 @@ def alert_on_high(sc):
         hardware.buzzer.silence()
 
 
-s.enter(20, 1, save_data_to_mqtt, (s,))
+def save_illumination_to_mqtt(sc):
+    illumination = hardware.light_sensor.read_data()
+    illumination.save()
+    connections.logger.debug(f"Lights saved to mqtt ({illumination.percents}%)")
+    hardware.reinit()
+    s.enter(5, 1, save_illumination_to_mqtt, (sc,))
+
+
+s.enter(20, 1, save_temperature_to_mqtt, (s,))
 s.enter(5, 1, alert_on_high, (s,))
+s.enter(5, 1, save_illumination_to_mqtt, (s,))
 try:
     s.run()
 except KeyboardInterrupt:

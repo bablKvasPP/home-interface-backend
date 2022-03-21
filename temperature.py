@@ -1,5 +1,8 @@
 from dataclasses import dataclass
-from pi_sht1x import SHT1x
+
+from RPi import GPIO
+from pi_sht1x import SHT1x, SHT1xError
+
 from mqtt import publish_message
 from settings import TEMPERATURE_SENSOR_DATA_PIN, TEMPERATURE_SENSOR_SCK_PIN
 
@@ -15,6 +18,11 @@ class TemperatureMeasurement:
 
 
 def get_temperature_data() -> TemperatureMeasurement:
-    with SHT1x(TEMPERATURE_SENSOR_DATA_PIN, TEMPERATURE_SENSOR_SCK_PIN, otp_no_reload=True) as sensor:
-        temp = sensor.read_temperature()
-        return TemperatureMeasurement(temp, sensor.read_humidity())
+    try:
+        with SHT1x(TEMPERATURE_SENSOR_DATA_PIN, TEMPERATURE_SENSOR_SCK_PIN, otp_no_reload=True,
+                   gpio_mode=GPIO.BCM) as sensor:
+            temp = sensor.read_temperature()
+            return TemperatureMeasurement(temp, sensor.read_humidity())
+    except SHT1xError:
+        # Using mock data instead of real if sensor is not connected
+        return TemperatureMeasurement(20, 50)
