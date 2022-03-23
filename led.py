@@ -50,7 +50,11 @@ class LED:
         self.pin = pin
         self.is_reversed = is_reversed
         self._state = 0
-        GPIO.setup(pin, GPIO.OUT, initial=GPIO.LOW)
+        self.setup()
+
+    def setup(self):
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(self.pin, GPIO.OUT, initial=GPIO.LOW if not self.is_reversed else GPIO.HIGH)
 
     @property
     def state(self):
@@ -58,6 +62,7 @@ class LED:
 
     def set_state(self, value):
         self._state = value
+        self.setup()
         GPIO.output(self.pin, value)
 
     def on(self):
