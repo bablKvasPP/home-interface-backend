@@ -27,7 +27,7 @@ def get_temperature_data() -> TemperatureMeasurement:
     # because of sensor timeout there is some builtin timeout, based on previous measurement
     global previous_measurement_time
     global previous_measurement
-    if datetime.now().timestamp() - previous_measurement_time > 20:
+    if datetime.now().timestamp() - previous_measurement_time > 5:
         try:
             with SHT1x(TEMPERATURE_SENSOR_DATA_PIN, TEMPERATURE_SENSOR_SCK_PIN, otp_no_reload=True,
                        gpio_mode=GPIO.BCM) as sensor:

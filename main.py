@@ -18,7 +18,7 @@ def save_temperature_to_mqtt(sc):
     temp_data.save_to_mqtt()
     connections.logger.debug(f"Temp data saved to mqtt (t={temp_data.temp_value}º, h={temp_data.humidity_value}%)")
     hardware.reinit()
-    s.enter(20, 1, save_temperature_to_mqtt, (sc,))
+    s.enter(5, 1, save_temperature_to_mqtt, (sc,))
 
 
 def alert_on_high(sc):
@@ -48,7 +48,7 @@ def save_illumination_to_mqtt(sc):
     s.enter(5, 1, save_illumination_to_mqtt, (sc,))
 
 
-s.enter(20, 1, save_temperature_to_mqtt, (s,))
+s.enter(5, 1, save_temperature_to_mqtt, (s,))
 s.enter(5, 1, alert_on_high, (s,))
 s.enter(5, 1, save_illumination_to_mqtt, (s,))
 s.enter(2, 1, cool_on_high_heat_on_cold, (s,))
