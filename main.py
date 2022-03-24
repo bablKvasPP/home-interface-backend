@@ -28,6 +28,7 @@ def alert_on_high(sc):
     else:
         hardware.buzzer.silence()
 
+
 def cool_on_high_heat_on_cold(sc):
     temp_data = get_temperature_data()
     if temp_data.temp_value > storage.cooler_threshold:
@@ -40,6 +41,7 @@ def cool_on_high_heat_on_cold(sc):
         hardware.heater.off()
     s.enter(5, 1, cool_on_high_heat_on_cold, (sc,))
 
+
 def save_illumination_to_mqtt(sc):
     illumination = hardware.light_sensor.read_data()
     illumination.save()
@@ -48,10 +50,16 @@ def save_illumination_to_mqtt(sc):
     s.enter(5, 1, save_illumination_to_mqtt, (sc,))
 
 
+def clear_old_combinations(sc):
+    hardware.door_lock.clear_old_combinations()
+    s.enter(5, 1, clear_old_combinations, (sc,))
+
+
 s.enter(5, 1, save_temperature_to_mqtt, (s,))
 s.enter(5, 1, alert_on_high, (s,))
 s.enter(5, 1, save_illumination_to_mqtt, (s,))
 s.enter(2, 1, cool_on_high_heat_on_cold, (s,))
+s.enter(5, 1, clear_old_combinations, (s,))
 try:
     s.run()
 except KeyboardInterrupt:
