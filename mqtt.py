@@ -9,6 +9,7 @@ message_routes = [
     MqttRoute("lights/b", lambda x: hardware.rgb_led.set_rgb(b=int(x))),
     MqttRoute("heater/threshold/temperature", lambda x: storage.save_heater_threshold(int(x))),
     MqttRoute("fan/threshold/temperature", lambda x: storage.save_cooler_threshold(int(x))),
+    MqttRoute("fan/alert", lambda x: storage.save_alert_threshold(int(x))),
 ]
 
 

@@ -8,7 +8,7 @@ class Storage:
     lights_r: int = 0
     lights_g: int = 0
     lights_b: int = 0
-    light_economic_mode: bool = False
+    light_economic_mode: bool = True
     heater_threshold: int = 18
     cooler_threshold: int = 23
     alert_threshold: int = 70
@@ -24,6 +24,10 @@ class Storage:
 
     def save_heater_threshold(self, value):
         self.heater_threshold = value
+        self.save()
+
+    def save_alert_threshold(self, value):
+        self.alert_threshold = value
         self.save()
 
     def load(self):

@@ -6,8 +6,8 @@ from RPi import GPIO
 
 class DoorLock:
     def __init__(self, digital_tick_pin, success_led, failed_led, checking_led, tick_led, on_success: Callable,
-                 etalon=None, threshold=0.5, timeout=7):
-        self.etalon = [2, 1, 1.5] if etalon is None else etalon
+                 etalon=None, threshold=0.35, timeout=7):
+        self.etalon = [1, 1, 2] if etalon is None else etalon
         self.success_led = success_led
         self.checking_led = checking_led
         self.tick_led = tick_led
@@ -79,6 +79,7 @@ class DoorLock:
                         connections.logger.debug("Correct combination flag is setted true")
                         self.is_success_callback_called = True
                         connections.logger.info("Correct combinations found!")
+                        self.combinations = []
                         self.checking_led.off()
                         self.success_led.on()
                         self.tick_led.off()

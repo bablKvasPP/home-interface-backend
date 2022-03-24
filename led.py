@@ -10,11 +10,22 @@ class RGBLed:
         self.r_pin = r_pin
         self.g_pin = g_pin
         self.b_pin = b_pin
+        self.state = 1
         self.setup_pinout()
         self.r_pwm = GPIO.PWM(self.r_pin, 100)
         self.g_pwm = GPIO.PWM(self.g_pin, 100)
         self.b_pwm = GPIO.PWM(self.b_pin, 100)
         self.start_pwm()
+
+    def turn_on(self):
+        if self.state == 0:
+            self.set_rgb(storage.lights_r, storage.lights_g, storage.lights_b)
+            self.state = 1
+
+    def turn_off(self):
+        if self.state == 1:
+            self.set_rgb(0, 0, 0, False)
+            self.state = 0
 
     def start_pwm(self):
         self.r_pwm.start(0)
@@ -31,17 +42,20 @@ class RGBLed:
         GPIO.setup(self.g_pin, GPIO.OUT, initial=GPIO.LOW)
         GPIO.setup(self.b_pin, GPIO.OUT, initial=GPIO.LOW)
 
-    def set_rgb(self, r=None, g=None, b=None):
+    def set_rgb(self, r=None, g=None, b=None, save_to_storage=True):
         multiply_koef = 1 / 2.55
         if r is not None:
             self.r_pwm.ChangeDutyCycle(r * multiply_koef)
-            storage.lights_r = r
+            if save_to_storage:
+                storage.lights_r = r
         if g is not None:
             self.g_pwm.ChangeDutyCycle(g * multiply_koef)
-            storage.lights_g = g
+            if save_to_storage:
+                storage.lights_g = g
         if b is not None:
             self.b_pwm.ChangeDutyCycle(b * multiply_koef)
-            storage.lights_b = b
+            if save_to_storage:
+                storage.lights_b = b
         storage.save()
 
 
