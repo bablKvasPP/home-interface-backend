@@ -1,4 +1,7 @@
 from os import getenv
+from dotenv import load_dotenv
+
+load_dotenv()
 
 TEMPERATURE_SENSOR_DATA_PIN = 25
 TEMPERATURE_SENSOR_SCK_PIN = 24
